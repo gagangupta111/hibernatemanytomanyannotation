@@ -1,8 +1,12 @@
 package com.hibernate;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
+
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 public class App {
 
@@ -14,11 +18,11 @@ public class App {
         session.beginTransaction();
 
         Stock stock = new Stock();
-        stock.setStockCode("3000");
-        stock.setStockName("LAKSHYA");
+        stock.setStockCode("300024");
+        stock.setStockName("LAKSHYA_04");
 
-        Category category1 = new Category("WOW", "WOW_COMPANY");
-        Category category2 = new Category("NOW", "NOW_COMPANY");
+        Category category1 = new Category("WOW_04", "WOW_COMPANY_04");
+        Category category2 = new Category("NOW_04", "NOW_COMPANY_04");
 
         Set<Category> categories = new HashSet<Category>();
         categories.add(category1);
@@ -29,6 +33,13 @@ public class App {
         session.save(stock);
 
         session.getTransaction().commit();
+
+        Query query = session.createQuery("from Stock where stockCode = :code ");
+        query.setParameter("code", "300023");
+        List list = query.list();
+
+        System.out.println(list);
+
         System.out.println("Done");
     }
 }
